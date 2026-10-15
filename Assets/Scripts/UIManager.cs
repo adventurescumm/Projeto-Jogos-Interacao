@@ -1,74 +1,59 @@
-using UnityEngine; // Disponibiliza MonoBehaviour, GameObject e Time.
-using TMPro; // Disponibiliza os componentes de texto do TextMesh Pro.
-using UnityEngine.UI;
+using UnityEngine; // Disponibiliza os componentes da Unity.
+using TMPro; // Disponibiliza os textos do TextMesh Pro.
+using UnityEngine.UI; // Disponibiliza Button.
 
-public class UIManager : MonoBehaviour // Permite anexar o script a um objeto da cena.
+public class UIManager : MonoBehaviour // Apresenta os dados da partida.
 {
-    public GameObject endGamePanel; // Referência ao painel de encerramento existente.
+    public GameObject endGamePanel; // Mantém a referência ao painel existente.
 
-    [SerializeField] // Mostra o campo privado abaixo no Inspector.
-    private TMP_Text timerText; // Texto que mostra o cronômetro durante a partida.
+    [SerializeField] private TMP_Text timerText; // Texto do cronômetro.
+    [SerializeField] private TMP_Text resultText; // Texto do resultado final.
+    [SerializeField] private TMP_Text scoreText; // Texto da pontuação.
+    [SerializeField] private TMP_Text statusText; // Novo texto de vida, munição e onda.
+    [SerializeField] private Button restartButton; // Botão selecionado no encerramento.
 
-    [SerializeField] // Permite associar este campo pelo Inspector.
-    private TMP_Text resultText; // Texto que mostrará o resultado e o tempo final.
-    
-    [SerializeField]
-    private TMP_Text scoreText;
-    
-    [SerializeField]
-    private Button restartButton;
+    private bool resultShown; // Impede apresentar o resultado repetidamente.
 
-    [SerializeField] // Permite ajustar a duração pelo Inspector.
-    private float duration = 60f; // Limite inicial de 60 segundos.
-
-    private bool resultShown; // Começa falso; registra se já mostramos o resultado.
-
-    private void Awake() // Inicializa este componente quando a cena é carregada.
+    private void Awake() // Prepara a interface.
     {
-        GameController.Init(duration); // Reinicia coletáveis, cronômetro e limite.
-        endGamePanel.SetActive(false); // Esconde o painel no início da partida.
-        scoreText.text = $"Pontos: {GameController.score}";
+        endGamePanel.SetActive(false); // Esconde o painel de encerramento.
+        resultShown = false; // Permite apresentar o resultado desta partida.
     }
 
-    private void Update() // A Unity chama este método a cada quadro.
+    private void LateUpdate() // Atualiza a interface depois dos métodos Update.
     {
-        if (resultShown) // Verifica se o resultado já foi apresentado.
+        scoreText.text = $"Pontos: {GameController.score}"; // Mostra os pontos por eliminações.
+
+        statusText.text = // Monta as duas linhas de informações.
+            $"Vida: {GameController.health}/{GameController.MaxHealth} | Munição: {GameController.ammo}\n" + // Mostra os recursos.
+            $"Onda: {GameController.wave} | Inimigos: {GameController.enemiesRemaining}"; // Mostra a progressão.
+
+        float displayedTime = GameController.elapsedTime; // Começa considerando o tempo decorrido.
+
+        if (GameController.timeLimitEnabled) // Verifica se deve mostrar contagem regressiva.
         {
-            return; // Encerra esta execução para preservar a tela final.
+            displayedTime = Mathf.Max(0f, GameController.timeLimit - GameController.elapsedTime); // Calcula o tempo restante.
         }
 
-        GameController.UpdateTime(Time.deltaTime); // Atualiza o cronômetro.
-        
-        scoreText.text = $"Pontos: {GameController.score}";
+        int totalSeconds = GameController.timeLimitEnabled // Escolhe o arredondamento adequado.
+            ? Mathf.CeilToInt(displayedTime) // Arredonda para cima na contagem regressiva.
+            : Mathf.FloorToInt(displayedTime); // Mostra segundos completos na contagem crescente.
 
-        // Subtrai o tempo gasto do limite e impede que o resultado fique negativo.
-        float remainingTime = Mathf.Max(0f, GameController.timeLimit - GameController.elapsedTime);
+        int minutes = totalSeconds / 60; // Calcula os minutos.
+        int seconds = totalSeconds % 60; // Calcula os segundos restantes.
 
-        // Arredonda para cima: enquanto ainda existir uma fração de segundo, mostra 1.
-        int totalSeconds = Mathf.CeilToInt(remainingTime);
+        timerText.text = $"{minutes:00}:{seconds:00}"; // Preserva a apresentação em minutos e segundos.
 
-        // Divide por 60; como os valores são inteiros, guarda apenas os minutos completos.
-        int minutes = totalSeconds / 60;
+        if (!GameController.gameOver || resultShown) return; // Aguarda o encerramento e evita repetições.
 
-        // O operador % obtém o resto da divisão: os segundos que sobraram.
-        int seconds = totalSeconds % 60;
+        string result = GameController.health <= 0 ? "Você perdeu!" : "Tempo esgotado!"; // Identifica o motivo da derrota.
 
-        // Mostra minutos e segundos com pelo menos dois dígitos, incluindo zeros à esquerda.
-        timerText.text = $"{minutes:00}:{seconds:00}";
+        resultText.text = // Monta a mensagem final.
+            $"{result}\nPontos: {GameController.score}\n" + // Mostra o motivo e a pontuação.
+            $"Onda: {GameController.wave}\nTempo: {GameController.elapsedTime:F1} s"; // Mostra onda e duração.
 
-        if (!GameController.gameOver) // O ! significa "não": a partida ainda continua?
-        {
-            return; // Sai sem abrir o painel de encerramento.
-        }
-
-        // Escolhe a mensagem: condição ? valor se verdadeira : valor se falsa.
-        string result = GameController.timeExpired ? "Tempo esgotado!" : "Você venceu!";
-
-        // Exibe o resultado e o tempo congelado; \n cria uma quebra de linha.
-        resultText.text = $"{result}\nTempo final: {GameController.elapsedTime:F2} s";
-
-        endGamePanel.SetActive(true); // Mostra o painel com o resultado.
-        restartButton.Select();
-        resultShown = true; // Impede que esse encerramento seja repetido.
+        endGamePanel.SetActive(true); // Abre o painel.
+        restartButton.Select(); // Seleciona Reiniciar para navegação pelo controle.
+        resultShown = true; // Registra que o resultado já foi mostrado.
     }
 }
