@@ -43,13 +43,17 @@ public class PlayerShooter : MonoBehaviour // Controla mira e disparos.
 
         Vector2 desiredDirection = stick; // Começa considerando a direção do analógico.
 
-        if (usingMouse && Mouse.current != null) // Verifica se deve acompanhar o cursor.
+        if (usingMouse && Mouse.current != null) // Verifica se a mira está sendo controlada pelo mouse.
         {
-            Vector3 screenPosition = pointerAction.ReadValue<Vector2>(); // Lê a posição em pixels.
+            Vector2 pointerPosition = pointerAction.ReadValue<Vector2>(); // Lê a posição do cursor na tela.
+
+            if (!gameCamera.pixelRect.Contains(pointerPosition)) return; // Interrompe a mira e o disparo quando o cursor está fora da área da câmera.
+
+            Vector3 screenPosition = pointerPosition; // Prepara a posição para a conversão.
             screenPosition.z = -gameCamera.transform.position.z; // Define a distância até o plano Z = 0.
 
-            Vector2 worldPosition = gameCamera.ScreenToWorldPoint(screenPosition); // Converte a posição para o mundo.
-            desiredDirection = worldPosition - (Vector2)transform.position; // Calcula a direção até o cursor.
+            Vector2 worldPosition = gameCamera.ScreenToWorldPoint(screenPosition); // Converte o cursor para uma posição na arena.
+            desiredDirection = worldPosition - (Vector2)transform.position; // Calcula a direção até essa posição.
         }
 
         if (desiredDirection.sqrMagnitude > 0.001f) // Ignora uma direção praticamente nula.
