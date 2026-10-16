@@ -7,6 +7,7 @@ public class PlayerShooter : MonoBehaviour // Controla mira e disparos.
     [SerializeField] private Transform aimPivot; // Objeto que mostrará a direção da mira.
     [SerializeField] private Camera gameCamera; // Câmera usada para interpretar o mouse.
     [SerializeField, Min(0.05f)] private float shotInterval = 0.2f; // Intervalo mínimo entre tiros.
+    [SerializeField] private float spriteAngleOffset = 0f;
 
     private InputAction aimAction; // Ação do analógico direito.
     private InputAction pointerAction; // Ação da posição do mouse.
@@ -15,12 +16,25 @@ public class PlayerShooter : MonoBehaviour // Controla mira e disparos.
     private Vector2 aimDirection = Vector2.right; // Direção inicial e última direção válida.
     private bool usingMouse; // Indica qual dispositivo controla a mira.
     private float nextShotTime; // Instante em que outro tiro será permitido.
+    private Rigidbody2D rb;
 
     private void Awake() // Obtém as referências das ações.
     {
         aimAction = InputSystem.actions.FindAction("Player/Aim", true); // Localiza a ação do analógico.
         pointerAction = InputSystem.actions.FindAction("Player/Pointer", true); // Localiza a posição do mouse.
         attackAction = InputSystem.actions.FindAction("Player/Attack", true); // Reutiliza a ação de ataque.
+        rb = GetComponent<Rigidbody2D>();
+    }
+    
+    private void FixedUpdate() // Executa junto das atualizações da física.
+    {
+        if (GameController.gameOver) return; // Para de atualizar a rotação quando a partida termina.
+
+        if (aimDirection.sqrMagnitude < 0.001f) return; // Evita calcular uma orientação usando uma direção praticamente zero.
+
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg; // Converte a direção da mira em um ângulo em graus.
+
+        rb.SetRotation(angle + spriteAngleOffset); // Aplica esse ângulo ao jogador, incluindo a correção do sprite.
     }
 
     private void Update() // Atualiza a mira e verifica os disparos.
@@ -69,9 +83,12 @@ public class PlayerShooter : MonoBehaviour // Controla mira e disparos.
         nextShotTime = Time.time + shotInterval; // Agenda o próximo disparo permitido.
     }
 
-    private void LateUpdate() // Atualiza o indicador depois das atualizações normais.
+    private void LateUpdate() // Atualiza a mira depois das atualizações normais do frame.
     {
-        aimPivot.position = transform.position; // Faz o indicador acompanhar o jogador.
-        aimPivot.right = aimDirection; // Aponta seu eixo X na direção da mira.
+        aimPivot.position = transform.position; // Mantém o pivô da mira no centro do jogador.
+
+        if (aimDirection.sqrMagnitude < 0.001f) return; // Preserva a orientação quando não há direção válida.
+
+        aimPivot.right = aimDirection; // Alinha o eixo X do pivô com a direção da mira no mundo.
     }
 }

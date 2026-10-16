@@ -7,6 +7,7 @@ public class EnemyChaser : MonoBehaviour // Implementa o inimigo perseguidor.
     private Transform player; // Guarda o alvo da perseguição.
     private float speed; // Guarda a velocidade desta onda.
     private bool dead; // Impede registrar a morte mais de uma vez.
+    [SerializeField] private float spriteAngleOffset = 0f;
 
     private void Awake() // Obtém o componente ao criar o inimigo.
     {
@@ -23,16 +24,25 @@ public class EnemyChaser : MonoBehaviour // Implementa o inimigo perseguidor.
         if (shooter != null) shooter.Init(target); // Entrega o mesmo jogador como alvo dos disparos.
     }
 
-    private void FixedUpdate() // Atualiza a perseguição junto da física.
+    private void FixedUpdate() // Atualiza o movimento e a orientação junto da física.
     {
-        if (dead || GameController.gameOver || player == null) // Verifica se pode perseguir.
+        if (dead || GameController.gameOver || player == null) // Verifica se o inimigo deve parar.
         {
-            rb.linearVelocity = Vector2.zero; // Interrompe o movimento.
-            return; // Sai antes de calcular a direção.
+            rb.linearVelocity = Vector2.zero; // Interrompe seu movimento.
+
+            return; // Encerra esta atualização.
         }
 
-        Vector2 direction = (Vector2)player.position - rb.position; // Calcula a direção até o jogador.
-        rb.linearVelocity = direction.normalized * speed; // Persegue com velocidade constante.
+        Vector2 direction = (Vector2)player.position - rb.position; // Calcula a direção do inimigo até o jogador.
+
+        rb.linearVelocity = direction.normalized * speed; // Move o inimigo nessa direção usando sua velocidade.
+
+        if (direction.sqrMagnitude > 0.001f) // Só muda a orientação se houver uma direção válida.
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Converte a direção até o jogador em graus.
+
+            rb.SetRotation(angle + spriteAngleOffset); // Faz o inimigo olhar para o jogador.
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) // Detecta o início do contato.
