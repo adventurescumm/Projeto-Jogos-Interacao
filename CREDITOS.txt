@@ -60,10 +60,11 @@ ASSETS KENNEY JÁ PRESENTES E REUTILIZADOS
 Autor: Kenney. Licença: CC0. Os License.txt do envio foram preservados.
 
 OUTROS ARQUIVOS PRESERVADOS DO PROJETO ENVIADO
-As imagens de munição, cura e explosões, os dois WAVs de música e os sons de
-morte já estavam no projeto. Esta atualização não pesquisou nem baixou novas
-cópias de sons de Metal Slug, Doom, Street Fighter II, One Must Fall ou Epic
-Pinball. As referências existentes foram mantidas.
+Som de morte soldado: Metal Slug
+Som de morte hitman: Doom
+Som de morte jogador: Street Fighter II
+Música de menu inicial: Menu (One Must Fall: 2097)
+Música de jogo: Adrenaline (Epic Pinball)
 
 O arquivo enviado não documenta integralmente a autoria e licença destes
 arquivos. Complete os créditos específicos a partir dos pacotes de origem:
