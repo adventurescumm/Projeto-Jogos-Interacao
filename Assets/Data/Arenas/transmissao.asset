@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67f37e9c0fbfb3da8bcea498dcb46f7, type: 3}
+  m_Name: transmissao
+  m_EditorClassIdentifier: 
+  id: transmissao
+  displayName: "Controle de transmiss\xE3o"
+  announcement: "CONTROLE \xB7 ENCONTRE AS DUAS CREDENCIAIS PARA CHEGAR \xC0 FINAL"
+  mapPosition: {x: 1, y: 0}
+  mapLabel: TV
+  floorColor: {r: 0.25, g: 0.22, b: 0.31, a: 1}
+  accentColor: {r: 0.75, g: 0.48, b: 1, a: 1}
+  timeLimit: 30
+  north: cofre
+  east: antecamara
+  south: seguranca
+  west: oficina
+  requiredKeys: []
+  rewardKey: 
+  bossArena: 0
+  enemies:
+  - prefab: {fileID: 9193731166809696345, guid: 9142dd9c79befc04e9694135d9b56935, type: 3}
+    position: {x: -4.7, y: 2.3}
+  - prefab: {fileID: 9193731166809696345, guid: 9142dd9c79befc04e9694135d9b56935, type: 3}
+    position: {x: 4.7, y: -2.3}
+  - prefab: {fileID: 8922725440833952376, guid: 91ad127e8976e034abd3e9f0500b2c81, type: 3}
+    position: {x: 4.5, y: 2.3}
+  - prefab: {fileID: 8922725440833952376, guid: 91ad127e8976e034abd3e9f0500b2c81, type: 3}
+    position: {x: -4.5, y: -2.3}
+  - prefab: {fileID: 3196899119725624283, guid: 43ec88481476cd2561891edd12572ad8, type: 3}
+    position: {x: -1.2, y: 2.4}
+  items:
+  - prefab: {fileID: 6469946353531621806, guid: 2d0c4157c72ef31488bfe85d4ab0fcb0, type: 3}
+    position: {x: -4.7, y: 0}
+  - prefab: {fileID: 6469946353531621806, guid: 2d0c4157c72ef31488bfe85d4ab0fcb0, type: 3}
+    position: {x: 4.7, y: 0}
+  - prefab: {fileID: 6469946353531621806, guid: 49f86aedf17eb2b4db66cdebc570d129, type: 3}
+    position: {x: 0, y: -2.4}
+  - prefab: {fileID: 6469946353531621806, guid: 01883133907c6aa4f59b5efd99849c92, type: 3}
+    position: {x: 0, y: 1.2}
+  - prefab: {fileID: 6469946353531621806, guid: 2d0c4157c72ef31488bfe85d4ab0fcb0, type: 3}
+    position: {x: 0, y: 0}
+  obstacles:
+  - position: {x: -2, y: 0}
+    size: {x: 1.3, y: 1.3}
+  - position: {x: 2, y: 0}
+    size: {x: 1.3, y: 1.3}

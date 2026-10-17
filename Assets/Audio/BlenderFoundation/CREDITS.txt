@@ -1,0 +1,8 @@
+Applause — Blender Foundation, do jogo Yo Frankie!.
+Recorte da seção de aplausos: LeeZH (OpenGameArt).
+Fonte: https://opengameart.org/content/applause
+Original: https://opengameart.org/content/endgame
+Licença Creative Commons Attribution 3.0 Unported (CC BY 3.0):
+https://creativecommons.org/licenses/by/3.0/
+Arquivo applause.wav copiado sem editar para BossApplause.wav.
+O volume é controlado pelo AudioSource da Unity. Não há endosso dos autores.

@@ -15,7 +15,9 @@ GameObject:
   - component: {fileID: 3588561007177929678}
   - component: {fileID: 3930823994707823691}
   - component: {fileID: 4723878192113499028}
-  m_Layer: 0
+  - component: {fileID: -7255420036487316126}
+  - component: {fileID: 900100001}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +122,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -170,9 +172,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 832ecb7f89d34ee4eb0e6e463d97ea1a, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 10
+  speed: 5
 --- !u!82 &3930823994707823691
 AudioSource:
   m_ObjectHideFlags: 0
@@ -184,7 +186,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: c1d97c88f5a1a1f40ae545f03974e4b0, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -280,13 +282,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b76cd86d636bd9347a4ec3706bfef8a0, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooter
   projectilePrefab: {fileID: 7365922376806772815, guid: 26d00a343602ceb4f8032bc25e15deef, type: 3}
   aimPivot: {fileID: 1619634977083457882}
   gameCamera: {fileID: 0}
   shotInterval: 0.2
   spriteAngleOffset: 0
+  stickDeadzone: 0.12
+  fineAimResponse: 18
+  fullAimResponse: 45
+--- !u!114 &-7255420036487316126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258440738024989207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4018f1fdd4a111c4293ea2ca341dd14d, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathFeedback
+  deathEffectPrefab: {fileID: 4309796490450887881, guid: 5471cf095d3bdd648917e9d25d724c6c, type: 3}
+  deathSound: {fileID: 8300000, guid: b7992b7c4d39cca488b71e1a33cd71f2, type: 3}
+  aimObject: {fileID: 4151830297527499064}
 --- !u!1 &4151830297527499064
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,3 +338,15 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6470109408519144249}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &900100001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258440738024989207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2f7691ba6573eb78799e6900a55fd56, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:

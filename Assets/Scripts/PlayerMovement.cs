@@ -13,7 +13,12 @@ public class PlayerMovement : MonoBehaviour // Controla o deslocamento do jogado
     private void Awake() // Obtém as referências antes das atualizações.
     {
         rb = GetComponent<Rigidbody2D>(); // Localiza o corpo físico.
-        moveAction = InputSystem.actions.FindAction("Player/Move", true); // Localiza a ação obrigatória.
+        rb.gravityScale = 0f;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null) collider.sharedMaterial = GamePhysics.NoFriction;
+        moveAction = InputSystem.actions.FindAction("Player/Move", true);
+        moveAction.Enable(); // Localiza a ação obrigatória.
     }
 
     private void Update() // Lê a entrada a cada quadro.
@@ -23,12 +28,13 @@ public class PlayerMovement : MonoBehaviour // Controla o deslocamento do jogado
 
     private void FixedUpdate() // Aplica o movimento junto da física.
     {
-        if (GameController.gameOver) // Verifica se a partida terminou.
+        if (!GameController.CanControl) // Verifica se a partida terminou.
         {
             rb.linearVelocity = Vector2.zero; // Interrompe o deslocamento.
             return; // Não processa novos movimentos.
         }
 
+        rb.angularVelocity = 0f;
         Vector2 direction = Vector2.ClampMagnitude(movement, 1f); // Limita a diagonal e preserva a intensidade do analógico.
         rb.linearVelocity = direction * speed; // Define a velocidade do corpo.
     }

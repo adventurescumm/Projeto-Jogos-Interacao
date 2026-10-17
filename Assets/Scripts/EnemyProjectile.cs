@@ -6,6 +6,7 @@ public class EnemyProjectile : MonoBehaviour // Controla um tiro disparado pelo 
     [SerializeField] private float radius = 0.08f; // Define o raio da detecção de impacto.
     [SerializeField] private float lifetime = 4f; // Define o tempo máximo de existência.
     [SerializeField] private LayerMask hitLayers; // Define quais layers podem ser atingidas.
+    [SerializeField] private float spriteAngleOffset = -90f;
 
     private Vector2 direction; // Guarda a direção escolhida no momento do disparo.
     private int createdInWave; // Guarda a onda em que o tiro foi criado.
@@ -13,13 +14,15 @@ public class EnemyProjectile : MonoBehaviour // Controla um tiro disparado pelo 
     public void Init(Vector2 shotDirection) // Configura o projétil recém-criado.
     {
         direction = shotDirection.normalized; // Garante a mesma velocidade em qualquer direção.
-        createdInWave = GameController.wave; // Registra a onda atual.
+        transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + spriteAngleOffset);
+        createdInWave = GameController.EncounterId; // Registra a onda atual.
         Destroy(gameObject, lifetime); // Agenda a remoção caso nenhum impacto aconteça.
     }
 
     private void FixedUpdate() // Atualiza o tiro nos passos da física.
     {
-        if (GameController.gameOver || createdInWave != GameController.wave) // Verifica encerramento ou troca de onda.
+        if (GameController.Paused) return;
+        if (!GameController.CanControl || !GameController.CombatActive || createdInWave != GameController.EncounterId) // Verifica encerramento ou troca de onda.
         {
             Remove(); // Remove tiros que não pertencem mais ao combate atual.
             return; // Impede novos impactos.

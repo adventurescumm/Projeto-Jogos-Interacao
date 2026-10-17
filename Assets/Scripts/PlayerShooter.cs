@@ -1,94 +1,105 @@
-using UnityEngine; // Disponibiliza câmera, vetores e criação de objetos.
-using UnityEngine.InputSystem; // Disponibiliza ações e acesso ao mouse.
+using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerShooter : MonoBehaviour // Controla mira e disparos.
+[RequireComponent(typeof(Rigidbody2D))]
+public class PlayerShooter : MonoBehaviour
 {
-    [SerializeField] private Projectile projectilePrefab; // Prefab usado nos disparos.
-    [SerializeField] private Transform aimPivot; // Objeto que mostrará a direção da mira.
-    [SerializeField] private Camera gameCamera; // Câmera usada para interpretar o mouse.
-    [SerializeField, Min(0.05f)] private float shotInterval = 0.2f; // Intervalo mínimo entre tiros.
-    [SerializeField] private float spriteAngleOffset = 0f;
-
-    private InputAction aimAction; // Ação do analógico direito.
-    private InputAction pointerAction; // Ação da posição do mouse.
-    private InputAction attackAction; // Ação Attack já existente no projeto.
-
-    private Vector2 aimDirection = Vector2.right; // Direção inicial e última direção válida.
-    private bool usingMouse; // Indica qual dispositivo controla a mira.
-    private float nextShotTime; // Instante em que outro tiro será permitido.
+    [SerializeField] private Projectile projectilePrefab;
+    [SerializeField] private Transform aimPivot;
+    [SerializeField] private Camera gameCamera;
+    [SerializeField, Min(0.05f)] private float shotInterval = 0.2f;
+    [SerializeField] private float spriteAngleOffset;
+    [Header("Mira do controle")]
+    [SerializeField, Range(0.05f, 0.35f)] private float stickDeadzone = 0.12f;
+    [SerializeField, Min(1f)] private float fineAimResponse = 18f;
+    [SerializeField, Min(1f)] private float fullAimResponse = 45f;
+    private InputAction aimAction, pointerAction, attackAction;
+    private Vector2 aimDirection = Vector2.right;
+    private bool usingMouse;
+    private bool waitForAttackRelease;
+    private float nextShotTime;
     private Rigidbody2D rb;
 
-    private void Awake() // Obtém as referências das ações.
+    private void Awake()
     {
-        aimAction = InputSystem.actions.FindAction("Player/Aim", true); // Localiza a ação do analógico.
-        pointerAction = InputSystem.actions.FindAction("Player/Pointer", true); // Localiza a posição do mouse.
-        attackAction = InputSystem.actions.FindAction("Player/Attack", true); // Reutiliza a ação de ataque.
+        if (projectilePrefab == null) Debug.LogError("PlayerShooter: conecte o prefab Projectile.", this);
+        aimAction = InputSystem.actions.FindAction("Player/Aim", true);
+        pointerAction = InputSystem.actions.FindAction("Player/Pointer", true);
+        attackAction = InputSystem.actions.FindAction("Player/Attack", true);
         rb = GetComponent<Rigidbody2D>();
-    }
-    
-    private void FixedUpdate() // Executa junto das atualizações da física.
-    {
-        if (GameController.gameOver) return; // Para de atualizar a rotação quando a partida termina.
-
-        if (aimDirection.sqrMagnitude < 0.001f) return; // Evita calcular uma orientação usando uma direção praticamente zero.
-
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg; // Converte a direção da mira em um ângulo em graus.
-
-        rb.SetRotation(angle + spriteAngleOffset); // Aplica esse ângulo ao jogador, incluindo a correção do sprite.
+        if (gameCamera == null) gameCamera = Camera.main;
+        aimAction.Enable(); pointerAction.Enable(); attackAction.Enable();
+        usingMouse = Mouse.current != null;
     }
 
-    private void Update() // Atualiza a mira e verifica os disparos.
+    private void Update()
     {
-        if (GameController.gameOver) return; // Bloqueia o combate após o encerramento.
-
-        Vector2 stick = aimAction.ReadValue<Vector2>(); // Lê o analógico direito.
-
-        if (stick.sqrMagnitude > 0.04f) // Verifica se o analógico está inclinado além do limite escolhido.
+        if (!GameController.CanControl || GameController.SuppressPlayerInput)
         {
-            usingMouse = false; // Passa o controle da mira para o gamepad.
+            if (GameController.Paused) waitForAttackRelease = true;
+            return;
         }
-        else if (Mouse.current != null) // Verifica se existe um mouse.
+        Gamepad pad = aimAction.activeControl != null ? aimAction.activeControl.device as Gamepad : null;
+        if (pad == null) pad = Gamepad.current;
+        // Leitura crua: uma única zona morta radial, sem somá-la à do Input System.
+        Vector2 stick = pad != null ? pad.rightStick.ReadUnprocessedValue() : aimAction.ReadValue<Vector2>();
+        bool stickMoved = stick.sqrMagnitude > stickDeadzone * stickDeadzone;
+        bool mouseUsed = Mouse.current != null && (Mouse.current.delta.ReadValue().sqrMagnitude > 1f
+            || Mouse.current.leftButton.wasPressedThisFrame);
+        if (mouseUsed) usingMouse = true;
+        else if (stickMoved) usingMouse = false;
+
+        bool pointerInside = true;
+        if (usingMouse && Mouse.current != null && gameCamera != null)
         {
-            bool moved = Mouse.current.delta.ReadValue().sqrMagnitude > 0f; // Detecta movimento do mouse.
-            bool clicked = Mouse.current.leftButton.wasPressedThisFrame; // Detecta um clique de disparo.
-
-            if (moved || clicked) usingMouse = true; // Passa a mira para o mouse quando ele é utilizado.
+            Vector2 pointer = pointerAction.ReadValue<Vector2>();
+            pointerInside = gameCamera.pixelRect.Contains(pointer);
+            if (pointerInside)
+            {
+                Vector3 screen = new Vector3(pointer.x, pointer.y, -gameCamera.transform.position.z);
+                Vector2 direction = (Vector2)gameCamera.ScreenToWorldPoint(screen) - rb.position;
+                if (direction.sqrMagnitude > 0.001f) aimDirection = direction.normalized;
+            }
         }
-
-        Vector2 desiredDirection = stick; // Começa considerando a direção do analógico.
-
-        if (usingMouse && Mouse.current != null) // Verifica se a mira está sendo controlada pelo mouse.
+        else if (stickMoved)
         {
-            Vector2 pointerPosition = pointerAction.ReadValue<Vector2>(); // Lê a posição do cursor na tela.
-
-            if (!gameCamera.pixelRect.Contains(pointerPosition)) return; // Interrompe a mira e o disparo quando o cursor está fora da área da câmera.
-
-            Vector3 screenPosition = pointerPosition; // Prepara a posição para a conversão.
-            screenPosition.z = -gameCamera.transform.position.z; // Define a distância até o plano Z = 0.
-
-            Vector2 worldPosition = gameCamera.ScreenToWorldPoint(screenPosition); // Converte o cursor para uma posição na arena.
-            desiredDirection = worldPosition - (Vector2)transform.position; // Calcula a direção até essa posição.
+            float strength = Mathf.InverseLerp(stickDeadzone, 1f, stick.magnitude);
+            float response = Mathf.Lerp(fineAimResponse, fullAimResponse, strength);
+            aimDirection = SmoothDirection(aimDirection, stick, response, Time.deltaTime);
         }
-
-        if (desiredDirection.sqrMagnitude > 0.001f) // Ignora uma direção praticamente nula.
+        // Soltar o analógico conserva a última direção: não retorna ao centro.
+        if (waitForAttackRelease)
         {
-            aimDirection = desiredDirection.normalized; // Atualiza a última direção válida.
+            if (!attackAction.IsPressed()) waitForAttackRelease = false;
+            return;
         }
-
-        if (!attackAction.IsPressed() || Time.time < nextShotTime) return; // Aguarda o comando e o intervalo.
-        if (!GameController.TrySpendAmmo()) return; // Interrompe se não houver munição.
-
-        Projectile projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity); // Cria o tiro no centro do jogador.
-        projectile.Init(aimDirection); // Define a direção do projétil.
-        nextShotTime = Time.time + shotInterval; // Agenda o próximo disparo permitido.
+        if (!pointerInside || projectilePrefab == null || !attackAction.IsPressed() || Time.time < nextShotTime) return;
+        if (!GameController.TrySpendAmmo()) return;
+        Projectile projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        projectile.Init(aimDirection);
+        nextShotTime = Time.time + shotInterval;
     }
 
-    private void LateUpdate() // Atualiza a mira depois das atualizações normais do frame.
+    public static Vector2 SmoothDirection(Vector2 current, Vector2 target, float response, float deltaTime)
     {
-        aimPivot.position = transform.position; // Mantém o pivô da mira no centro do jogador.
+        if (target.sqrMagnitude < 0.0001f) return current;
+        float from = Mathf.Atan2(current.y, current.x) * Mathf.Rad2Deg;
+        float to = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
+        // Interpola ângulos, evitando vetor zero ao virar 180 graus; independente do FPS.
+        float angle = Mathf.LerpAngle(from, to, 1f - Mathf.Exp(-response * Mathf.Max(0f, deltaTime))) * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+    }
 
-        if (aimDirection.sqrMagnitude < 0.001f) return; // Preserva a orientação quando não há direção válida.
+    private void FixedUpdate()
+    {
+        if (!GameController.CanControl) return;
+        rb.SetRotation(Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg + spriteAngleOffset);
+    }
 
-        aimPivot.right = aimDirection; // Alinha o eixo X do pivô com a direção da mira no mundo.
+    private void LateUpdate()
+    {
+        if (aimPivot == null) return;
+        aimPivot.position = transform.position;
+        aimPivot.right = aimDirection;
     }
 }

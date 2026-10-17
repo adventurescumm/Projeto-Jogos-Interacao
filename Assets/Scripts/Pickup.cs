@@ -1,44 +1,38 @@
-using UnityEngine; // Disponibiliza os componentes da Unity.
+using UnityEngine;
 
-public enum PickupType // Define os tipos de item.
+public enum PickupType { Ammo, Health, Treasure, Key }
+
+public class Pickup : MonoBehaviour
 {
-    Ammo, // Item de munição.
-    Health // Item de vida.
-}
+    [SerializeField] private PickupType type;
+    [SerializeField, Min(1)] private int ammoAmount = 8;
+    [SerializeField, Min(0)] private int points = 50;
+    [SerializeField] private string keyId;
+    [SerializeField] private AudioClip pickupSound;
+    private bool collected;
+    public bool IsAmmo => type == PickupType.Ammo;
+    public bool IsAvailable => !collected && isActiveAndEnabled;
+    public void SetKey(string id) { type = PickupType.Key; keyId = id; }
+    private void OnTriggerEnter2D(Collider2D other) => Collect(other);
+    private void OnTriggerStay2D(Collider2D other) => Collect(other);
 
-public class Pickup : MonoBehaviour // Controla a coleta de um item.
-{
-    [SerializeField] private PickupType type; // Tipo escolhido no Inspector.
-    [SerializeField] private int ammoAmount = 6; // Quantidade entregue por um pacote de munição.
-
-    public bool IsAmmo => type == PickupType.Ammo; // Permite identificar os pacotes de munição.
-
-    private bool collected; // Impede coletar o mesmo objeto mais de uma vez.
-
-    private void OnTriggerEnter2D(Collider2D other) // Detecta a entrada de outro collider.
+    private void Collect(Collider2D other)
     {
-        if (collected || GameController.gameOver) return; // Ignora itens consumidos e partidas encerradas.
-
-        PlayerMovement player = other.GetComponentInParent<PlayerMovement>(); // Procura o componente do jogador.
-
-        if (player == null) return; // Ignora inimigos e outros objetos.
-
-        if (type == PickupType.Ammo) // Verifica se deve entregar munição.
+        if (collected || !GameController.CanControl || other.GetComponentInParent<PlayerMovement>() == null) return;
+        switch (type)
         {
-            GameController.AddAmmo(ammoAmount); // Acrescenta os tiros disponíveis.
+            case PickupType.Ammo: GameController.AddAmmo(ammoAmount); break;
+            case PickupType.Health: if (!GameController.TryHeal()) return; break;
+            case PickupType.Treasure: GameController.AddScore(points); break;
+            case PickupType.Key:
+                if (!GameController.AddKey(keyId)) return;
+                GameController.AddScore(points);
+                if (WaveManager.Instance != null) WaveManager.Instance.Notify("CREDENCIAL " + keyId + " ADQUIRIDA", 2f);
+                break;
         }
-        else // Trata o item como recuperação de vida.
-        {
-            if (!GameController.TryHeal()) return; // Preserva o item quando o jogador está com vida cheia.
-        }
-
-        collected = true; // Registra o consumo imediatamente.
-
-        AudioSource sound = player.GetComponent<AudioSource>(); // Obtém o som de coleta já existente no jogador.
-
-        if (sound != null) sound.Play(); // Reproduz o áudio quando houver um componente.
-
-        gameObject.SetActive(false); // Desativa o visual e o collider.
-        Destroy(gameObject); // Solicita a destruição definitiva.
+        collected = true;
+        GameAudio.Play(pickupSound);
+        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
