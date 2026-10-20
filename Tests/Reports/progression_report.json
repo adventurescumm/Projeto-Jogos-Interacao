@@ -1,0 +1,56 @@
+{
+  "reachable_room_key_states": 43,
+  "all_reachable_states_can_reach_victory": true,
+  "leave_and_recover_key_cases": 8,
+  "navigation": {
+    "final": {
+      "connected_cells": 416,
+      "alternative_supply_positions": 275
+    },
+    "camarim": {
+      "connected_cells": 424,
+      "alternative_supply_positions": 280
+    },
+    "galeria": {
+      "connected_cells": 388,
+      "alternative_supply_positions": 244
+    },
+    "estudio": {
+      "connected_cells": 416,
+      "alternative_supply_positions": 272
+    },
+    "triagem": {
+      "connected_cells": 416,
+      "alternative_supply_positions": 264
+    },
+    "seguranca": {
+      "connected_cells": 400,
+      "alternative_supply_positions": 240
+    },
+    "transmissao": {
+      "connected_cells": 416,
+      "alternative_supply_positions": 272
+    },
+    "oficina": {
+      "connected_cells": 384,
+      "alternative_supply_positions": 240
+    },
+    "patrocinio": {
+      "connected_cells": 416,
+      "alternative_supply_positions": 264
+    },
+    "antecamara": {
+      "connected_cells": 424,
+      "alternative_supply_positions": 272
+    },
+    "reator": {
+      "connected_cells": 416,
+      "alternative_supply_positions": 264
+    },
+    "cofre": {
+      "connected_cells": 384,
+      "alternative_supply_positions": 240
+    }
+  },
+  "unity_editor_executed": false
+}

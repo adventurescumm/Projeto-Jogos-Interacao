@@ -28,7 +28,13 @@ public class ArenaDefinition : ScriptableObject
 }
 
 [Serializable]
-public struct EnemySpawn { public EnemyChaser prefab; public Vector2 position; }
+public struct EnemySpawn
+{
+    public EnemyChaser prefab;
+    public Vector2 position;
+    [Tooltip("Fácil: aparece em todos os modos; Normal/Difícil: reforços desses modos.")]
+    public DifficultyLevel minimumDifficulty;
+}
 
 [Serializable]
 public struct ItemSpawn { public Pickup prefab; public Vector2 position; }

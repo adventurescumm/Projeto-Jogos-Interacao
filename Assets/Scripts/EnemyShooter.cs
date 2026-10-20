@@ -17,27 +17,40 @@ public class EnemyShooter : MonoBehaviour
     [SerializeField] private bool enrageAtHalfHealth;
     private Transform player;
     private EnemyChaser owner;
-    private int phase; // 0 = pausa, 1 = aviso, 2 = rajada.
+    private int phase;
     private int shotsLeft;
     private float nextAction;
     private Vector2 lockedAim;
+    private bool waitingForPreparation;
 
     private void Awake() => owner = GetComponent<EnemyChaser>();
     public void Init(Transform target)
     {
         player = target;
         phase = 0;
-        nextAction = Time.time + Random.Range(0.8f, 1.5f);
+        waitingForPreparation = true;
+        nextAction = Time.time + Random.Range(1f, 2f);
     }
-
     private void Update()
     {
-        if (GameController.Paused) return; // Conserva aviso, mira travada e tiros restantes da rajada.
+        if (GameController.Paused) return;
+        if (GameController.Preparing)
+        {
+            waitingForPreparation = true;
+            owner.SetWarning(false, warningColor);
+            phase = 0;
+            return;
+        }
         if (!GameController.CanControl || !GameController.CombatActive || player == null || owner.Dead)
         {
             owner.SetWarning(false, warningColor);
             phase = 0;
             return;
+        }
+        if (waitingForPreparation)
+        {
+            waitingForPreparation = false;
+            nextAction = Time.time + Random.Range(1f, 2f);
         }
         if (Time.time < nextAction) return;
         bool enraged = enrageAtHalfHealth && owner.HealthRatio <= 0.5f;
@@ -52,7 +65,6 @@ public class EnemyShooter : MonoBehaviour
         {
             owner.SetWarning(false, warningColor);
             if (!CanShoot()) { BeginPause(enraged); return; }
-            // A mira fica fixa durante a rajada: o jogador pode sair da linha de tiro.
             lockedAim = ((Vector2)player.position - (Vector2)transform.position).normalized;
             shotsLeft = shotsPerBurst + (enraged ? 1 : 0);
             phase = 2;
@@ -60,7 +72,6 @@ public class EnemyShooter : MonoBehaviour
         }
         else Fire(enraged);
     }
-
     private void Fire(bool enraged)
     {
         for (int i = 0; i < projectilesPerShot; i++)
@@ -74,13 +85,12 @@ public class EnemyShooter : MonoBehaviour
         if (shotsLeft <= 0) BeginPause(enraged);
         else nextAction = Time.time + burstInterval;
     }
-
     private void BeginPause(bool enraged)
     {
         phase = 0;
-        nextAction = Time.time + Random.Range(minPause, Mathf.Max(minPause, maxPause)) * (enraged ? 0.75f : 1f);
+        nextAction = Time.time + Random.Range(minPause, Mathf.Max(minPause, maxPause))
+            * GameDifficulty.ShootingPause(GameController.Difficulty) * (enraged ? 0.75f : 1f);
     }
-
     private bool CanShoot()
     {
         if (projectilePrefab == null) return false;
@@ -88,7 +98,6 @@ public class EnemyShooter : MonoBehaviour
         return difference.sqrMagnitude > 0.01f && difference.sqrMagnitude <= shootingRange * shootingRange
             && Physics2D.Linecast(transform.position, player.position, obstacleLayers).collider == null;
     }
-
     private void OnDisable()
     {
         if (owner != null) owner.SetWarning(false, warningColor);

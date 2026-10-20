@@ -28,12 +28,15 @@ public class WaveManager : MonoBehaviour
         public bool entered, cleared;
         public Pickup reward;
         public readonly List<Pickup> items = new List<Pickup>();
+        public readonly List<EnemyChaser> enemies = new List<EnemyChaser>();
     }
     private readonly Dictionary<string, Room> rooms = new Dictionary<string, Room>();
     private Room current;
     private ArenaNavigation navigation;
-    private float doorCooldown, ammoRetry;
+    private float doorCooldown, ammoRetry, recoveryCheck;
     private float blockedSupplySince = -1f;
+    private readonly Dictionary<EnemyChaser, float> strandedSince = new Dictionary<EnemyChaser, float>();
+    public IReadOnlyList<EnemyChaser> CurrentEnemies => current?.enemies;
     public ArenaDefinition CurrentArena => current == null ? null : current.definition;
     public ArenaDefinition[] Arenas => arenas;
     public bool CurrentCleared => current != null && current.cleared;
@@ -67,10 +70,17 @@ public class WaveManager : MonoBehaviour
     {
         if (GameController.gameOver && !GameController.victory && applauseSource != null) applauseSource.Stop();
         if (current == null || GameController.gameOver || GameController.Paused) return;
-        GameController.UpdateTime(Time.deltaTime);
-        if (GameController.gameOver || GameController.Transitioning) return;
+        if (GameController.Transitioning) return;
         navigation.Refresh(player.position);
+        if (!current.cleared)
+        {
+            current.enemies.RemoveAll(enemy => enemy == null || enemy.Dead || !enemy.gameObject.activeInHierarchy);
+            GameController.ReconcileEnemies(current.enemies.Count);
+            RecoverStrandedEnemies();
+        }
         if (!current.cleared && current.entered && GameController.enemiesRemaining == 0) ClearRoom();
+        GameController.UpdateTime(Time.deltaTime);
+        if (GameController.gameOver) return;
         if (current.cleared && !GameController.gameOver) EnsureRewardKey();
         if (GameController.CombatActive) EnsureAmmo();
     }
@@ -122,20 +132,30 @@ public class WaveManager : MonoBehaviour
         doorCooldown = Time.time + 0.8f;
         ammoRetry = 0f;
         blockedSupplySince = -1f;
+        strandedSince.Clear();
+        recoveryCheck = Time.time + 1f;
         if (!current.entered)
         {
             current.entered = true;
-            int count = 0;
-            foreach (EnemySpawn spawn in current.definition.enemies) if (spawn.prefab != null) count++;
-            GameController.StartWave(count, current.definition.timeLimit);
-            float difficulty = 1f + Mathf.Min(GameController.roomsCleared * 0.05f, 0.25f);
+            float difficulty = (1f + Mathf.Min(GameController.roomsCleared * 0.05f, 0.25f))
+                * GameDifficulty.Movement(GameController.Difficulty);
             foreach (EnemySpawn spawn in current.definition.enemies)
             {
-                if (spawn.prefab == null) continue;
-                EnemyChaser enemy = Instantiate(spawn.prefab, spawn.position, Quaternion.identity, current.root.transform);
+                if (!GameDifficulty.Includes(spawn, GameController.Difficulty)) continue;
+                Vector2 position = spawn.position;
+                if (!navigation.CanSpawnEnemy(position, arrival)
+                    && !navigation.TryFindEnemyPosition(position, arrival, out position))
+                {
+                    Debug.LogError("Sem posição segura para " + spawn.prefab.name + " em " + id + ". Verifique a configuração da sala.", this);
+                    continue; // Não adiciona um inimigo inexistente ao contador de portas.
+                }
+                EnemyChaser enemy = Instantiate(spawn.prefab, position, Quaternion.identity, current.root.transform);
                 enemy.Init(player, difficulty);
+                current.enemies.Add(enemy);
                 if (enemy.IsBoss) CurrentBoss = enemy;
+                Physics2D.SyncTransforms();
             }
+            GameController.StartWave(current.enemies.Count, GameDifficulty.RoomTime(current.definition, GameController.Difficulty));
             foreach (ItemSpawn spawn in current.definition.items) SpawnItem(spawn.prefab, spawn.position);
         }
         Notify(current.cleared ? current.definition.displayName + " · ÁREA LIBERADA" : current.definition.announcement, 2.8f);
@@ -199,31 +219,53 @@ public class WaveManager : MonoBehaviour
     private void EnsureAmmo()
     {
         if (GameController.ammo > 2) { blockedSupplySince = -1f; return; }
+        // Um pacote pode estar no mesmo setor da navegação e ainda ficar cercado
+        // por inimigos. A reserva não depende de alcançar esse pacote.
+        if (GameController.ammo == 0)
+        {
+            if (blockedSupplySince < 0f) blockedSupplySince = Time.time;
+            if (Time.time - blockedSupplySince >= 2.5f)
+            {
+                GameController.AddAmmo(3);
+                blockedSupplySince = -1f;
+                Notify("RESERVA DE EMERGÊNCIA · +3 TIROS", 2f);
+                return;
+            }
+        }
+        else blockedSupplySince = -1f;
         if (Time.time < ammoRetry) return;
         ammoRetry = Time.time + 1f;
         current.items.RemoveAll(item => item == null);
         foreach (Pickup item in current.items)
         {
             if (!item.IsAmmo || !item.IsAvailable || !navigation.IsReachable(item.transform.position)) continue;
-            blockedSupplySince = -1f;
             return;
         }
         if (ammoPrefab != null && navigation.TryFindPickupPosition(player.position, out Vector2 position))
         {
             SpawnItem(ammoPrefab, position);
-            blockedSupplySince = -1f;
             Notify("REPOSIÇÃO DE MUNIÇÃO DISPONÍVEL", 1.5f);
             return;
         }
-        // Último recurso: zero tiros, nenhum pacote alcançável e nenhuma posição livre.
-        // O prazo da sala continua correndo; a reserva não concede pontos.
-        if (GameController.ammo != 0) { blockedSupplySince = -1f; return; }
-        if (blockedSupplySince < 0f) blockedSupplySince = Time.time;
-        if (Time.time - blockedSupplySince < 2f) return;
-        GameController.AddAmmo(3);
-        blockedSupplySince = -1f;
-        Debug.LogWarning("Reserva de emergência: reposição física de munição indisponível.", this);
-        Notify("RESERVA DE EMERGÊNCIA · +3 TIROS", 2f);
+    }
+
+    private void RecoverStrandedEnemies()
+    {
+        if (Time.time < recoveryCheck) return;
+        recoveryCheck = Time.time + 1f;
+        foreach (EnemyChaser enemy in current.enemies)
+        {
+            if (!navigation.NeedsRecovery(enemy.transform.position))
+            { strandedSince.Remove(enemy); continue; }
+            if (!strandedSince.TryGetValue(enemy, out float since))
+            { strandedSince[enemy] = Time.time; continue; }
+            if (Time.time - since < 2f) continue;
+            if (!navigation.TryFindEnemyPosition(enemy.transform.position, player.position, out Vector2 position)) continue;
+            enemy.Relocate(position); // Mantém os pontos de vida e o tipo do inimigo.
+            strandedSince.Remove(enemy);
+            Physics2D.SyncTransforms();
+            Debug.LogWarning("Inimigo fora da área navegável reposicionado em " + current.definition.id, enemy);
+        }
     }
     public void Notify(string message, float seconds = 2f)
     { Announcement = message; AnnouncementUntil = Time.time + seconds; }

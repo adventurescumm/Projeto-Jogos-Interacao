@@ -1,0 +1,74 @@
+{
+  "static_checks": 7625,
+  "csharp_files_syntax_checked": 31,
+  "serialized_assets_checked": 31,
+  "menu_text_preserved": true,
+  "menu_resolutions_geometry_checked": [
+    [
+      640,
+      480
+    ],
+    [
+      854,
+      480
+    ],
+    [
+      1280,
+      720
+    ],
+    [
+      1920,
+      1080
+    ],
+    [
+      2560,
+      1080
+    ],
+    [
+      3840,
+      2160
+    ],
+    [
+      480,
+      640
+    ]
+  ],
+  "changed_existing_files": [
+    "VALIDACAO.txt",
+    "README.md",
+    "Assets/InputSystem_Actions.inputactions",
+    "Assets/Editor/ProjectValidation.cs",
+    "Assets/Scripts/EnemyChaser.cs",
+    "Assets/Scripts/EnemyProjectile.cs",
+    "Assets/Scripts/GameController.cs",
+    "Assets/Scripts/PlayerShooter.cs",
+    "Assets/Scripts/ArenaNavigation.cs",
+    "Assets/Scripts/EnemyShooter.cs",
+    "Assets/Scripts/ArenaDefinition.cs",
+    "Assets/Scripts/MenuInicialUI.cs",
+    "Assets/Scripts/MenuActions.cs",
+    "Assets/Scripts/WaveManager.cs",
+    "Assets/Scripts/ButtonPulse.cs",
+    "Assets/Scripts/PauseMenu.cs",
+    "Assets/Scripts/PlayerMovement.cs",
+    "Assets/Scenes/MainMenu.unity",
+    "Assets/Scenes/Arena01Estudio.unity",
+    "Assets/Data/Arenas/final.asset",
+    "Assets/Data/Arenas/camarim.asset",
+    "Assets/Data/Arenas/galeria.asset",
+    "Assets/Data/Arenas/estudio.asset",
+    "Assets/Data/Arenas/triagem.asset",
+    "Assets/Data/Arenas/seguranca.asset",
+    "Assets/Data/Arenas/transmissao.asset",
+    "Assets/Data/Arenas/oficina.asset",
+    "Assets/Data/Arenas/patrocinio.asset",
+    "Assets/Data/Arenas/antecamara.asset",
+    "Assets/Data/Arenas/reator.asset",
+    "Assets/Data/Arenas/cofre.asset"
+  ],
+  "removed_files": [
+    "Tests/validate_five_enemy_layouts.py"
+  ],
+  "unity_compiled_or_executed": false,
+  "xbox_hardware_tested": false
+}

@@ -24,6 +24,9 @@ public class PlayerMovement : MonoBehaviour // Controla o deslocamento do jogado
     private void Update() // Lê a entrada a cada quadro.
     {
         movement = moveAction.ReadValue<Vector2>(); // Lê os controles associados a Move.
+        Gamepad pad = moveAction.activeControl != null ? moveAction.activeControl.device as Gamepad : null;
+        if (pad != null && pad.dpad.ReadValue().sqrMagnitude < 0.01f)
+            movement = ControllerSettings.Radial(pad.leftStick.ReadUnprocessedValue(), ControllerSettings.Deadzone);
     }
 
     private void FixedUpdate() // Aplica o movimento junto da física.

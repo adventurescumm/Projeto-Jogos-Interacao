@@ -31,6 +31,14 @@ public class EnemyChaser : MonoBehaviour
     public string DisplayName => displayName;
     public bool Dead => dead;
 
+    public void Relocate(Vector2 position)
+    {
+        rb.position = position;
+        transform.position = position;
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

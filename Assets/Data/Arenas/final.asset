@@ -19,7 +19,7 @@ MonoBehaviour:
   mapLabel: F
   floorColor: {r: 0.29, g: 0.2, b: 0.23, a: 1}
   accentColor: {r: 1, g: 0.35, b: 0.3, a: 1}
-  timeLimit: 60
+  timeLimit: 78
   north: 
   east: 
   south: 
@@ -32,14 +32,37 @@ MonoBehaviour:
   enemies:
   - prefab: {fileID: 8922725440833952376, guid: 3bb011165e8745c4353a8be0bb7fff94, type: 3}
     position: {x: 3, y: 1.8}
-  - prefab: {fileID: 3196899119725624283, guid: b6e6cd3e4a1f23f48837c15379fb2fd4, type: 3}
+    minimumDifficulty: 0
+  - prefab: {fileID: 9193731166809696345, guid: 9142dd9c79befc04e9694135d9b56935, type: 3}
     position: {x: 3, y: -2.5}
-  - prefab: {fileID: 3196899119725624283, guid: b6e6cd3e4a1f23f48837c15379fb2fd4, type: 3}
+    minimumDifficulty: 0
+  - prefab: {fileID: 3196899119725624283, guid: 43ec88481476cd2561891edd12572ad8, type: 3}
     position: {x: 0, y: 2.6}
-  - prefab: {fileID: 3196899119725624283, guid: b6e6cd3e4a1f23f48837c15379fb2fd4, type: 3}
+    minimumDifficulty: 0
+  - prefab: {fileID: 9193731166809696345, guid: 90b272f8a6d113dbdaf64921a7f404cb, type: 3}
     position: {x: -4, y: 2}
+    minimumDifficulty: 0
   - prefab: {fileID: 8922725440833952376, guid: 91ad127e8976e034abd3e9f0500b2c81, type: 3}
     position: {x: 4, y: -1.5}
+    minimumDifficulty: 0
+  - prefab: {fileID: 3196899119725624283, guid: b6e6cd3e4a1f23f48837c15379fb2fd4, type: 3}
+    position: {x: -6.25, y: -3.25}
+    minimumDifficulty: 0
+  - prefab: {fileID: 3196899119725624283, guid: b6e6cd3e4a1f23f48837c15379fb2fd4, type: 3}
+    position: {x: -1.75, y: -2.25}
+    minimumDifficulty: 0
+  - prefab: {fileID: 8922725440833952376, guid: 72944c84e17e92126b975344698be6cd, type: 3}
+    position: {x: 6.25, y: 3.25}
+    minimumDifficulty: 1
+  - prefab: {fileID: 9193731166809696345, guid: 9142dd9c79befc04e9694135d9b56935, type: 3}
+    position: {x: 6.25, y: -3.25}
+    minimumDifficulty: 1
+  - prefab: {fileID: 8922725440833952376, guid: 91ad127e8976e034abd3e9f0500b2c81, type: 3}
+    position: {x: 6.25, y: 0.25}
+    minimumDifficulty: 2
+  - prefab: {fileID: 3196899119725624283, guid: 43ec88481476cd2561891edd12572ad8, type: 3}
+    position: {x: -4.25, y: -0.75}
+    minimumDifficulty: 2
   items:
   - prefab: {fileID: 6469946353531621806, guid: 2d0c4157c72ef31488bfe85d4ab0fcb0, type: 3}
     position: {x: -4.8, y: 2.5}
@@ -55,6 +78,12 @@ MonoBehaviour:
     position: {x: -3, y: 0}
   - prefab: {fileID: 6469946353531621806, guid: 2d0c4157c72ef31488bfe85d4ab0fcb0, type: 3}
     position: {x: 0, y: 0}
+  - prefab: {fileID: 6469946353531621806, guid: 2d0c4157c72ef31488bfe85d4ab0fcb0, type: 3}
+    position: {x: 5.25, y: -3.25}
+  - prefab: {fileID: 6469946353531621806, guid: 2d0c4157c72ef31488bfe85d4ab0fcb0, type: 3}
+    position: {x: -1.25, y: 3.25}
+  - prefab: {fileID: 6469946353531621806, guid: 2d0c4157c72ef31488bfe85d4ab0fcb0, type: 3}
+    position: {x: 2.75, y: -0.25}
   obstacles:
   - position: {x: -1.8, y: 1.2}
     size: {x: 1, y: 1}

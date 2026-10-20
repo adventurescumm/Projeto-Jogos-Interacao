@@ -1,56 +1,91 @@
-using UnityEngine; // Permite acessar GameObjects, Canvas e MonoBehaviour.
-using UnityEngine.UI; // Permite acessar Button e ScrollRect.
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
-public class MenuInicialUI : MonoBehaviour // Controla as telas do menu.
+public class MenuInicialUI : MonoBehaviour
 {
-    [SerializeField] private GameObject painelPrincipal; // Tela inicial.
-    [SerializeField] private GameObject painelHistoria; // Tela da história.
-    [SerializeField] private GameObject painelInstrucoes; // Tela de instruções.
+    [SerializeField] private GameObject painelPrincipal;
+    [SerializeField] private GameObject painelHistoria;
+    [SerializeField] private GameObject painelInstrucoes;
+    [SerializeField] private Button botaoJogar;
+    [SerializeField] private Button botaoHistoria;
+    [SerializeField] private Button botaoInstrucoes;
+    [SerializeField] private Button voltarHistoria;
+    [SerializeField] private Button voltarInstrucoes;
+    [SerializeField] private ScrollRect rolagemHistoria;
+    private Button botaoDeRetorno;
+    private MatchSetupMenu setup;
 
-    [SerializeField] private Button botaoJogar; // Seleção inicial do menu.
-    [SerializeField] private Button botaoHistoria; // Botão que abre a história.
-    [SerializeField] private Button botaoInstrucoes; // Botão que abre as instruções.
-
-    [SerializeField] private Button voltarHistoria; // Botão de retorno da história.
-    [SerializeField] private Button voltarInstrucoes; // Botão de retorno das instruções.
-
-    [SerializeField] private ScrollRect rolagemHistoria; // Área rolável da história.
-
-    private Button botaoDeRetorno; // Guarda qual botão selecionar ao voltar.
-
-    private void Start() // Executa quando a cena inicia.
+    private void Awake()
     {
-        botaoDeRetorno = botaoJogar; // Define a seleção de retorno inicial.
-        Mostrar(painelPrincipal, botaoJogar); // Abre a tela inicial.
+        setup = gameObject.AddComponent<MatchSetupMenu>();
+        setup.Build(painelPrincipal, botaoJogar, GetComponent<MenuActions>());
+        RemoverRolagemHistoria();
     }
-
-    public void AbrirHistoria() // Será chamado pelo botão História.
+    private void Start()
     {
-        botaoDeRetorno = botaoHistoria; // Lembra de onde o jogador veio.
-        ScreenTransition.Run(() => Mostrar(painelHistoria, voltarHistoria)); // Exibe a história e seleciona Voltar.
-
-
+        botaoDeRetorno = botaoJogar;
+        Mostrar(painelPrincipal, botaoJogar);
     }
-
-    public void AbrirInstrucoes() // Será chamado pelo botão Instruções.
+    private void Update()
     {
-        botaoDeRetorno = botaoInstrucoes; // Lembra de onde o jogador veio.
-        ScreenTransition.Run(() => Mostrar(painelInstrucoes, voltarInstrucoes)); // Exibe as instruções.
+        if (setup.IsOpen || ScreenTransition.IsBusy || painelPrincipal.activeSelf) return;
+        CanvasGroup group = GetComponent<CanvasGroup>();
+        if (group != null && !group.interactable) return;
+        Gamepad pad = Gamepad.current;
+        if ((pad != null && pad.buttonEast.wasPressedThisFrame)
+            || (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)) Voltar();
     }
-
-    public void Voltar() // Será chamado pelos dois botões Voltar.
+    public void AbrirHistoria()
     {
-        ScreenTransition.Run(() => Mostrar(painelPrincipal, botaoDeRetorno)); // Retorna ao menu e restaura a seleção.
+        botaoDeRetorno = botaoHistoria;
+        ScreenTransition.Run(() => Mostrar(painelHistoria, voltarHistoria));
     }
-
-    private void Mostrar(GameObject painel, Button primeiroBotao) // Centraliza a troca de tela.
+    public void AbrirInstrucoes()
     {
-        painelPrincipal.SetActive(painel == painelPrincipal); // Ativa apenas se for a tela escolhida.
-        painelHistoria.SetActive(painel == painelHistoria); // Faz a mesma verificação para a história.
-        painelInstrucoes.SetActive(painel == painelInstrucoes); // Faz a verificação para as instruções.
+        botaoDeRetorno = botaoInstrucoes;
+        ScreenTransition.Run(() => Mostrar(painelInstrucoes, voltarInstrucoes));
+    }
+    public void Voltar() => ScreenTransition.Run(() => Mostrar(painelPrincipal, botaoDeRetorno));
 
-        if (painel == painelHistoria && rolagemHistoria != null)
-        { Canvas.ForceUpdateCanvases(); rolagemHistoria.StopMovement(); rolagemHistoria.verticalNormalizedPosition = 1f; }
-        primeiroBotao.Select(); // Seleciona o botão para navegação por teclado ou controle.
+    private void RemoverRolagemHistoria()
+    {
+        if (painelHistoria != null)
+            foreach (Scrollbar bar in painelHistoria.GetComponentsInChildren<Scrollbar>(true))
+                bar.gameObject.SetActive(false);
+        if (rolagemHistoria == null) return;
+        rolagemHistoria.StopMovement();
+        rolagemHistoria.enabled = false;
+        rolagemHistoria.horizontal = rolagemHistoria.vertical = false;
+        if (rolagemHistoria.horizontalScrollbar != null) rolagemHistoria.horizontalScrollbar.gameObject.SetActive(false);
+        if (rolagemHistoria.verticalScrollbar != null) rolagemHistoria.verticalScrollbar.gameObject.SetActive(false);
+        rolagemHistoria.horizontalScrollbar = rolagemHistoria.verticalScrollbar = null;
+        // Libera também a faixa que antes era reservada para a barra.
+        RectTransform viewport = rolagemHistoria.viewport;
+        if (viewport != null)
+        {
+            viewport.anchorMin = Vector2.zero; viewport.anchorMax = Vector2.one;
+            viewport.offsetMin = viewport.offsetMax = Vector2.zero;
+        }
+        AlinharHistoriaNoTopo();
+    }
+    private void AlinharHistoriaNoTopo()
+    {
+        if (rolagemHistoria == null || rolagemHistoria.content == null) return;
+        RectTransform content = rolagemHistoria.content;
+        // Não modifica o texto nem o tamanho de fonte da história.
+        content.anchoredPosition = new Vector2(content.anchoredPosition.x, 0f);
+    }
+    private void Mostrar(GameObject painel, Button primeiroBotao)
+    {
+        painelPrincipal.SetActive(painel == painelPrincipal);
+        painelHistoria.SetActive(painel == painelHistoria);
+        painelInstrucoes.SetActive(painel == painelInstrucoes);
+        if (painel == painelHistoria)
+        {
+            Canvas.ForceUpdateCanvases();
+            AlinharHistoriaNoTopo();
+        }
+        primeiroBotao.Select();
     }
 }

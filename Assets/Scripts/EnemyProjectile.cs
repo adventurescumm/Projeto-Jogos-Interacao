@@ -28,7 +28,7 @@ public class EnemyProjectile : MonoBehaviour // Controla um tiro disparado pelo 
             return; // Impede novos impactos.
         }
 
-        float distance = speed * Time.fixedDeltaTime; // Calcula o deslocamento deste passo.
+        float distance = speed * GameDifficulty.ProjectileSpeed(GameController.Difficulty) * Time.fixedDeltaTime;
 
         RaycastHit2D hit = Physics2D.CircleCast( // Verifica todo o caminho até a próxima posição.
             transform.position, // Usa a posição atual como origem.

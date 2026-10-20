@@ -119,6 +119,43 @@ public sealed class ArenaNavigation
         return found;
     }
 
+    public bool CanSpawnEnemy(Vector2 point, Vector2 player)
+    {
+        return IsReachable(point) && (point - player).sqrMagnitude >= 2.25f
+            && Physics2D.OverlapCircle(point, clearance + 0.05f, (1 << 7) | (1 << 6) | (1 << 3)) == null;
+    }
+
+    public bool NeedsRecovery(Vector2 point)
+    {
+        if (IsReachable(point)) return false;
+        // Não confunde a borda de uma célula com um inimigo preso.
+        for (int x = -2; x <= 2; x++)
+        for (int y = -2; y <= 2; y++)
+        {
+            Vector2 destination = point + new Vector2(x, y) * Step;
+            Vector2 direction = destination - point;
+            if (!IsReachable(destination)) continue;
+            if (Physics2D.CircleCast(point, clearance, direction.normalized, direction.magnitude, 1 << 7).collider == null) return false;
+        }
+        return true;
+    }
+
+    public bool TryFindEnemyPosition(Vector2 preferred, Vector2 player, out Vector2 result)
+    {
+        result = Vector2.zero;
+        float best = float.MaxValue;
+        bool found = false;
+        for (int x = 0; x < Width; x++)
+        for (int y = 0; y < Height; y++)
+        {
+            Vector2 point = Position(x, y);
+            float cost = (point - preferred).sqrMagnitude;
+            if (cost >= best || !CanSpawnEnemy(point, player)) continue;
+            best = cost; result = point; found = true;
+        }
+        return found;
+    }
+
     private bool CanStep(int x, int y, int nx, int ny)
     {
         if (nx < 0 || ny < 0 || nx >= Width || ny >= Height || blocked[nx, ny]) return false;

@@ -17,10 +17,11 @@ public class ButtonPulse : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField, Min(0.1f)] private float pulseSpeed = 1.3f;
     [SerializeField, Min(0.01f)] private float flashDuration = 0.24f;
     [SerializeField] private UnityEvent onConfirmed = new UnityEvent();
+    public event UnityAction ConfirmationStarted;
     private Button button;
     private Image glowImage;
     private readonly Color normalColor = new Color(1f, 0.75f, 0.2f, 0.65f);
-    private bool pointerInside, confirming, ready;
+    private bool pointerInside, confirming, ready, configured;
 
     private void Awake() => Prepare();
     private void Prepare()
@@ -30,7 +31,6 @@ public class ButtonPulse : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         Canvas canvas = GetComponentInParent<Canvas>();
         if (menuGroup == null && canvas != null)
             menuGroup = canvas.GetComponent<CanvasGroup>() ?? canvas.gameObject.AddComponent<CanvasGroup>();
-        // Cada botão controla exclusivamente seu próprio brilho, sem referências cruzadas.
         if (glow != null && glow.transform.IsChildOf(transform)) glow.gameObject.SetActive(false);
         GameObject child = new GameObject("BrilhoInterativo", typeof(RectTransform), typeof(CanvasGroup), typeof(Image));
         child.transform.SetParent(transform, false);
@@ -44,6 +44,8 @@ public class ButtonPulse : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void Configure(AudioClip clip, AudioSource source)
     {
         Prepare(); confirmSound = clip; uiAudio = source;
+        if (configured) return;
+        configured = true;
         minAlpha = 0.08f; maxAlpha = 0.65f; flashDuration = 0.24f;
         bool wired = false;
         for (int i = 0; i < button.onClick.GetPersistentEventCount(); i++)
@@ -69,6 +71,9 @@ public class ButtonPulse : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (!isActiveAndEnabled || confirming || ScreenTransition.IsBusy || button == null || glow == null || glowImage == null || !button.IsInteractable()) return;
         confirming = true;
         if (menuGroup != null) menuGroup.interactable = false;
+        // Jogar aproveita este instante para iniciar o narrador junto do flash.
+        try { ConfirmationStarted?.Invoke(); }
+        catch (System.Exception error) { Debug.LogException(error, this); }
         StartCoroutine(Confirmacao());
     }
     private IEnumerator Confirmacao()

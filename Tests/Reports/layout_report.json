@@ -1,0 +1,372 @@
+{
+  "checks": 5364,
+  "enemy_totals_by_difficulty": {
+    "easy": 92,
+    "normal": 122,
+    "hard": 155
+  },
+  "entry_scenarios": 93,
+  "scope": "Geometria conservadora e recursos; sem execução Unity, esquiva ou dano recebido. Tempos não são benchmark de partidas.",
+  "rooms": [
+    {
+      "room": "antecamara",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_hp": 17,
+      "floor_ammo": 48,
+      "entry_scenarios": 2,
+      "model_route_seconds": 16.44,
+      "time_limit": 58
+    },
+    {
+      "room": "antecamara",
+      "difficulty": "normal",
+      "enemies": 11,
+      "enemy_hp": 23,
+      "floor_ammo": 48,
+      "entry_scenarios": 2,
+      "model_route_seconds": 19.04,
+      "time_limit": 44
+    },
+    {
+      "room": "antecamara",
+      "difficulty": "hard",
+      "enemies": 14,
+      "enemy_hp": 29,
+      "floor_ammo": 48,
+      "entry_scenarios": 2,
+      "model_route_seconds": 22.19,
+      "time_limit": 44
+    },
+    {
+      "room": "camarim",
+      "difficulty": "easy",
+      "enemies": 6,
+      "enemy_hp": 8,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 10.84,
+      "time_limit": 37
+    },
+    {
+      "room": "camarim",
+      "difficulty": "normal",
+      "enemies": 8,
+      "enemy_hp": 10,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 12.54,
+      "time_limit": 28
+    },
+    {
+      "room": "camarim",
+      "difficulty": "hard",
+      "enemies": 10,
+      "enemy_hp": 13,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 14.54,
+      "time_limit": 28
+    },
+    {
+      "room": "cofre",
+      "difficulty": "easy",
+      "enemies": 9,
+      "enemy_hp": 23,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 21.19,
+      "time_limit": 73
+    },
+    {
+      "room": "cofre",
+      "difficulty": "normal",
+      "enemies": 12,
+      "enemy_hp": 29,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 24.89,
+      "time_limit": 56
+    },
+    {
+      "room": "cofre",
+      "difficulty": "hard",
+      "enemies": 15,
+      "enemy_hp": 35,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 28.19,
+      "time_limit": 56
+    },
+    {
+      "room": "estudio",
+      "difficulty": "easy",
+      "enemies": 6,
+      "enemy_hp": 6,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 10.34,
+      "time_limit": 30
+    },
+    {
+      "room": "estudio",
+      "difficulty": "normal",
+      "enemies": 8,
+      "enemy_hp": 9,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 12.44,
+      "time_limit": 23
+    },
+    {
+      "room": "estudio",
+      "difficulty": "hard",
+      "enemies": 10,
+      "enemy_hp": 12,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 13.94,
+      "time_limit": 23
+    },
+    {
+      "room": "final",
+      "difficulty": "easy",
+      "enemies": 7,
+      "enemy_hp": 32,
+      "floor_ammo": 64,
+      "entry_scenarios": 1,
+      "model_route_seconds": 20.89,
+      "time_limit": 102
+    },
+    {
+      "room": "final",
+      "difficulty": "normal",
+      "enemies": 9,
+      "enemy_hp": 37,
+      "floor_ammo": 64,
+      "entry_scenarios": 1,
+      "model_route_seconds": 24.14,
+      "time_limit": 78
+    },
+    {
+      "room": "final",
+      "difficulty": "hard",
+      "enemies": 11,
+      "enemy_hp": 41,
+      "floor_ammo": 64,
+      "entry_scenarios": 1,
+      "model_route_seconds": 26.14,
+      "time_limit": 78
+    },
+    {
+      "room": "galeria",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_hp": 13,
+      "floor_ammo": 40,
+      "entry_scenarios": 2,
+      "model_route_seconds": 17.84,
+      "time_limit": 50
+    },
+    {
+      "room": "galeria",
+      "difficulty": "normal",
+      "enemies": 10,
+      "enemy_hp": 16,
+      "floor_ammo": 40,
+      "entry_scenarios": 2,
+      "model_route_seconds": 19.74,
+      "time_limit": 38
+    },
+    {
+      "room": "galeria",
+      "difficulty": "hard",
+      "enemies": 13,
+      "enemy_hp": 22,
+      "floor_ammo": 40,
+      "entry_scenarios": 2,
+      "model_route_seconds": 22.94,
+      "time_limit": 38
+    },
+    {
+      "room": "oficina",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_hp": 16,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 16.74,
+      "time_limit": 50
+    },
+    {
+      "room": "oficina",
+      "difficulty": "normal",
+      "enemies": 10,
+      "enemy_hp": 22,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 19.14,
+      "time_limit": 38
+    },
+    {
+      "room": "oficina",
+      "difficulty": "hard",
+      "enemies": 13,
+      "enemy_hp": 29,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 22.69,
+      "time_limit": 38
+    },
+    {
+      "room": "patrocinio",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_hp": 16,
+      "floor_ammo": 48,
+      "entry_scenarios": 3,
+      "model_route_seconds": 17.34,
+      "time_limit": 60
+    },
+    {
+      "room": "patrocinio",
+      "difficulty": "normal",
+      "enemies": 11,
+      "enemy_hp": 22,
+      "floor_ammo": 48,
+      "entry_scenarios": 3,
+      "model_route_seconds": 21.04,
+      "time_limit": 46
+    },
+    {
+      "room": "patrocinio",
+      "difficulty": "hard",
+      "enemies": 14,
+      "enemy_hp": 28,
+      "floor_ammo": 48,
+      "entry_scenarios": 3,
+      "model_route_seconds": 25.14,
+      "time_limit": 46
+    },
+    {
+      "room": "reator",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_hp": 19,
+      "floor_ammo": 56,
+      "entry_scenarios": 3,
+      "model_route_seconds": 18.74,
+      "time_limit": 59
+    },
+    {
+      "room": "reator",
+      "difficulty": "normal",
+      "enemies": 11,
+      "enemy_hp": 26,
+      "floor_ammo": 56,
+      "entry_scenarios": 3,
+      "model_route_seconds": 21.89,
+      "time_limit": 45
+    },
+    {
+      "room": "reator",
+      "difficulty": "hard",
+      "enemies": 14,
+      "enemy_hp": 33,
+      "floor_ammo": 56,
+      "entry_scenarios": 3,
+      "model_route_seconds": 25.34,
+      "time_limit": 45
+    },
+    {
+      "room": "seguranca",
+      "difficulty": "easy",
+      "enemies": 9,
+      "enemy_hp": 22,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 18.14,
+      "time_limit": 68
+    },
+    {
+      "room": "seguranca",
+      "difficulty": "normal",
+      "enemies": 12,
+      "enemy_hp": 28,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 21.54,
+      "time_limit": 52
+    },
+    {
+      "room": "seguranca",
+      "difficulty": "hard",
+      "enemies": 15,
+      "enemy_hp": 34,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 24.69,
+      "time_limit": 52
+    },
+    {
+      "room": "transmissao",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_hp": 16,
+      "floor_ammo": 40,
+      "entry_scenarios": 4,
+      "model_route_seconds": 15.89,
+      "time_limit": 60
+    },
+    {
+      "room": "transmissao",
+      "difficulty": "normal",
+      "enemies": 11,
+      "enemy_hp": 21,
+      "floor_ammo": 40,
+      "entry_scenarios": 4,
+      "model_route_seconds": 18.44,
+      "time_limit": 46
+    },
+    {
+      "room": "transmissao",
+      "difficulty": "hard",
+      "enemies": 14,
+      "enemy_hp": 26,
+      "floor_ammo": 40,
+      "entry_scenarios": 4,
+      "model_route_seconds": 21.69,
+      "time_limit": 46
+    },
+    {
+      "room": "triagem",
+      "difficulty": "easy",
+      "enemies": 7,
+      "enemy_hp": 9,
+      "floor_ammo": 24,
+      "entry_scenarios": 4,
+      "model_route_seconds": 11.94,
+      "time_limit": 42
+    },
+    {
+      "room": "triagem",
+      "difficulty": "normal",
+      "enemies": 9,
+      "enemy_hp": 12,
+      "floor_ammo": 24,
+      "entry_scenarios": 4,
+      "model_route_seconds": 14.59,
+      "time_limit": 32
+    },
+    {
+      "room": "triagem",
+      "difficulty": "hard",
+      "enemies": 12,
+      "enemy_hp": 16,
+      "floor_ammo": 24,
+      "entry_scenarios": 4,
+      "model_route_seconds": 17.44,
+      "time_limit": 32
+    }
+  ]
+}

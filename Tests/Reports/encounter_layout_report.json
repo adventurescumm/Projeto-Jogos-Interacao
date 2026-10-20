@@ -1,0 +1,797 @@
+{
+  "checks": 5634,
+  "enemy_totals_by_difficulty": {
+    "easy": 92,
+    "normal": 122,
+    "hard": 155
+  },
+  "entry_scenarios": 93,
+  "scope": "Geometria conservadora e recursos; sem execução Unity, esquiva ou dano recebido. Tempos não são benchmark de partidas.",
+  "rooms": [
+    {
+      "room": "antecamara",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 2,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 2,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 3
+      },
+      "enemy_hp": 17,
+      "floor_ammo": 48,
+      "entry_scenarios": 2,
+      "model_route_seconds": 16.44,
+      "time_limit": 58
+    },
+    {
+      "room": "antecamara",
+      "difficulty": "normal",
+      "enemies": 11,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 3,
+        "soldier": 6
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyRobot": 3,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 4
+      },
+      "enemy_hp": 24,
+      "floor_ammo": 48,
+      "entry_scenarios": 2,
+      "model_route_seconds": 19.24,
+      "time_limit": 44
+    },
+    {
+      "room": "antecamara",
+      "difficulty": "hard",
+      "enemies": 14,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 4,
+        "soldier": 8
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyRobot": 3,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 4,
+        "EnemySoldierArmored": 4
+      },
+      "enemy_hp": 30,
+      "floor_ammo": 48,
+      "entry_scenarios": 2,
+      "model_route_seconds": 22.39,
+      "time_limit": 40
+    },
+    {
+      "room": "camarim",
+      "difficulty": "easy",
+      "enemies": 6,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 1,
+        "soldier": 4
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 1,
+        "EnemySoldier": 4
+      },
+      "enemy_hp": 8,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 10.84,
+      "time_limit": 37
+    },
+    {
+      "room": "camarim",
+      "difficulty": "normal",
+      "enemies": 8,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 1,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyRobot": 1,
+        "EnemySoldier": 5
+      },
+      "enemy_hp": 11,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 12.94,
+      "time_limit": 28
+    },
+    {
+      "room": "camarim",
+      "difficulty": "hard",
+      "enemies": 10,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 2,
+        "soldier": 6
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyRobot": 2,
+        "EnemySoldier": 5,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 16,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 15.34,
+      "time_limit": 26
+    },
+    {
+      "room": "cofre",
+      "difficulty": "easy",
+      "enemies": 9,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 2,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 1,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 3
+      },
+      "enemy_hp": 23,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 21.19,
+      "time_limit": 73
+    },
+    {
+      "room": "cofre",
+      "difficulty": "normal",
+      "enemies": 12,
+      "enemy_families": {
+        "hitman": 3,
+        "robot": 3,
+        "soldier": 6
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 2,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 4
+      },
+      "enemy_hp": 30,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 25.09,
+      "time_limit": 56
+    },
+    {
+      "room": "cofre",
+      "difficulty": "hard",
+      "enemies": 15,
+      "enemy_families": {
+        "hitman": 3,
+        "robot": 4,
+        "soldier": 8
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 2,
+        "EnemyRobotArmored": 2,
+        "EnemySoldier": 4,
+        "EnemySoldierArmored": 4
+      },
+      "enemy_hp": 36,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 28.39,
+      "time_limit": 51
+    },
+    {
+      "room": "estudio",
+      "difficulty": "easy",
+      "enemies": 6,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 1,
+        "soldier": 4
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 1,
+        "EnemySoldier": 4
+      },
+      "enemy_hp": 8,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 10.94,
+      "time_limit": 30
+    },
+    {
+      "room": "estudio",
+      "difficulty": "normal",
+      "enemies": 8,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 2,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 2,
+        "EnemySoldier": 5
+      },
+      "enemy_hp": 11,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 13.04,
+      "time_limit": 23
+    },
+    {
+      "room": "estudio",
+      "difficulty": "hard",
+      "enemies": 10,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 2,
+        "soldier": 6
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyRobot": 2,
+        "EnemySoldier": 5,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 16,
+      "floor_ammo": 24,
+      "entry_scenarios": 2,
+      "model_route_seconds": 15.14,
+      "time_limit": 21
+    },
+    {
+      "room": "final",
+      "difficulty": "easy",
+      "enemies": 7,
+      "enemy_families": {
+        "boss": 1,
+        "hitman": 2,
+        "robot": 1,
+        "soldier": 3
+      },
+      "enemy_prefabs": {
+        "BossExecutor": 1,
+        "EnemyHitman": 1,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 1,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 37,
+      "floor_ammo": 72,
+      "entry_scenarios": 1,
+      "model_route_seconds": 24.74,
+      "time_limit": 102
+    },
+    {
+      "room": "final",
+      "difficulty": "normal",
+      "enemies": 9,
+      "enemy_families": {
+        "boss": 1,
+        "hitman": 3,
+        "robot": 2,
+        "soldier": 3
+      },
+      "enemy_prefabs": {
+        "BossExecutor": 1,
+        "EnemyHitman": 2,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 1,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 43,
+      "floor_ammo": 72,
+      "entry_scenarios": 1,
+      "model_route_seconds": 28.74,
+      "time_limit": 78
+    },
+    {
+      "room": "final",
+      "difficulty": "hard",
+      "enemies": 11,
+      "enemy_families": {
+        "boss": 1,
+        "hitman": 3,
+        "robot": 3,
+        "soldier": 4
+      },
+      "enemy_prefabs": {
+        "BossExecutor": 1,
+        "EnemyHitman": 2,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 2,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 2
+      },
+      "enemy_hp": 48,
+      "floor_ammo": 72,
+      "entry_scenarios": 1,
+      "model_route_seconds": 30.74,
+      "time_limit": 71
+    },
+    {
+      "room": "galeria",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 1,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyRobot": 1,
+        "EnemySoldier": 4,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 13,
+      "floor_ammo": 40,
+      "entry_scenarios": 2,
+      "model_route_seconds": 17.84,
+      "time_limit": 50
+    },
+    {
+      "room": "galeria",
+      "difficulty": "normal",
+      "enemies": 10,
+      "enemy_families": {
+        "hitman": 3,
+        "robot": 1,
+        "soldier": 6
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 3,
+        "EnemyRobot": 1,
+        "EnemySoldier": 5,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 16,
+      "floor_ammo": 40,
+      "entry_scenarios": 2,
+      "model_route_seconds": 19.74,
+      "time_limit": 38
+    },
+    {
+      "room": "galeria",
+      "difficulty": "hard",
+      "enemies": 13,
+      "enemy_families": {
+        "hitman": 4,
+        "robot": 1,
+        "soldier": 8
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 3,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 1,
+        "EnemySoldier": 7,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 22,
+      "floor_ammo": 40,
+      "entry_scenarios": 2,
+      "model_route_seconds": 22.94,
+      "time_limit": 35
+    },
+    {
+      "room": "oficina",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 4,
+        "soldier": 3
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 4,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 15,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 16.54,
+      "time_limit": 50
+    },
+    {
+      "room": "oficina",
+      "difficulty": "normal",
+      "enemies": 10,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 6,
+        "soldier": 3
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 5,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 21,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 18.94,
+      "time_limit": 38
+    },
+    {
+      "room": "oficina",
+      "difficulty": "hard",
+      "enemies": 13,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 7,
+        "soldier": 4
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 5,
+        "EnemyRobotArmored": 2,
+        "EnemySoldier": 3,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 30,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 22.89,
+      "time_limit": 35
+    },
+    {
+      "room": "patrocinio",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_families": {
+        "hitman": 3,
+        "robot": 1,
+        "soldier": 4
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 1,
+        "EnemySoldier": 3,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 16,
+      "floor_ammo": 48,
+      "entry_scenarios": 3,
+      "model_route_seconds": 17.34,
+      "time_limit": 60
+    },
+    {
+      "room": "patrocinio",
+      "difficulty": "normal",
+      "enemies": 11,
+      "enemy_families": {
+        "hitman": 3,
+        "robot": 3,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 2,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 4,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 23,
+      "floor_ammo": 48,
+      "entry_scenarios": 3,
+      "model_route_seconds": 21.44,
+      "time_limit": 46
+    },
+    {
+      "room": "patrocinio",
+      "difficulty": "hard",
+      "enemies": 14,
+      "enemy_families": {
+        "hitman": 4,
+        "robot": 3,
+        "soldier": 7
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 3,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 2,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 5,
+        "EnemySoldierArmored": 2
+      },
+      "enemy_hp": 29,
+      "floor_ammo": 48,
+      "entry_scenarios": 3,
+      "model_route_seconds": 25.54,
+      "time_limit": 42
+    },
+    {
+      "room": "reator",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 4,
+        "soldier": 3
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 2,
+        "EnemyRobotArmored": 2,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 19,
+      "floor_ammo": 56,
+      "entry_scenarios": 3,
+      "model_route_seconds": 18.74,
+      "time_limit": 59
+    },
+    {
+      "room": "reator",
+      "difficulty": "normal",
+      "enemies": 11,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 6,
+        "soldier": 3
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyRobot": 3,
+        "EnemyRobotArmored": 3,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 27,
+      "floor_ammo": 56,
+      "entry_scenarios": 3,
+      "model_route_seconds": 22.29,
+      "time_limit": 45
+    },
+    {
+      "room": "reator",
+      "difficulty": "hard",
+      "enemies": 14,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 7,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 2,
+        "EnemyRobot": 3,
+        "EnemyRobotArmored": 4,
+        "EnemySoldier": 4,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 33,
+      "floor_ammo": 56,
+      "entry_scenarios": 3,
+      "model_route_seconds": 25.34,
+      "time_limit": 41
+    },
+    {
+      "room": "seguranca",
+      "difficulty": "easy",
+      "enemies": 9,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 2,
+        "soldier": 6
+      },
+      "enemy_prefabs": {
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 2,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 4
+      },
+      "enemy_hp": 22,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 18.14,
+      "time_limit": 68
+    },
+    {
+      "room": "seguranca",
+      "difficulty": "normal",
+      "enemies": 12,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 2,
+        "soldier": 8
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 2,
+        "EnemySoldier": 3,
+        "EnemySoldierArmored": 5
+      },
+      "enemy_hp": 28,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 21.54,
+      "time_limit": 52
+    },
+    {
+      "room": "seguranca",
+      "difficulty": "hard",
+      "enemies": 15,
+      "enemy_families": {
+        "hitman": 2,
+        "robot": 3,
+        "soldier": 10
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 2,
+        "EnemyRobotArmored": 1,
+        "EnemySoldier": 4,
+        "EnemySoldierArmored": 6
+      },
+      "enemy_hp": 36,
+      "floor_ammo": 56,
+      "entry_scenarios": 2,
+      "model_route_seconds": 25.29,
+      "time_limit": 47
+    },
+    {
+      "room": "transmissao",
+      "difficulty": "easy",
+      "enemies": 8,
+      "enemy_families": {
+        "hitman": 3,
+        "robot": 3,
+        "soldier": 2
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 3,
+        "EnemyRobot": 3,
+        "EnemySoldier": 1,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 16,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 15.89,
+      "time_limit": 60
+    },
+    {
+      "room": "transmissao",
+      "difficulty": "normal",
+      "enemies": 11,
+      "enemy_families": {
+        "hitman": 4,
+        "robot": 4,
+        "soldier": 3
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 3,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 4,
+        "EnemySoldier": 2,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 23,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 19.04,
+      "time_limit": 46
+    },
+    {
+      "room": "transmissao",
+      "difficulty": "hard",
+      "enemies": 14,
+      "enemy_families": {
+        "hitman": 4,
+        "robot": 5,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 3,
+        "EnemyHitmanArmored": 1,
+        "EnemyRobot": 5,
+        "EnemySoldier": 3,
+        "EnemySoldierArmored": 2
+      },
+      "enemy_hp": 29,
+      "floor_ammo": 48,
+      "entry_scenarios": 4,
+      "model_route_seconds": 22.69,
+      "time_limit": 42
+    },
+    {
+      "room": "triagem",
+      "difficulty": "easy",
+      "enemies": 7,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 2,
+        "soldier": 4
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 2,
+        "EnemySoldier": 4
+      },
+      "enemy_hp": 10,
+      "floor_ammo": 32,
+      "entry_scenarios": 4,
+      "model_route_seconds": 11.94,
+      "time_limit": 42
+    },
+    {
+      "room": "triagem",
+      "difficulty": "normal",
+      "enemies": 9,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 3,
+        "soldier": 5
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 3,
+        "EnemySoldier": 5
+      },
+      "enemy_hp": 13,
+      "floor_ammo": 32,
+      "entry_scenarios": 4,
+      "model_route_seconds": 14.14,
+      "time_limit": 32
+    },
+    {
+      "room": "triagem",
+      "difficulty": "hard",
+      "enemies": 12,
+      "enemy_families": {
+        "hitman": 1,
+        "robot": 3,
+        "soldier": 8
+      },
+      "enemy_prefabs": {
+        "EnemyHitman": 1,
+        "EnemyRobot": 3,
+        "EnemySoldier": 7,
+        "EnemySoldierArmored": 1
+      },
+      "enemy_hp": 18,
+      "floor_ammo": 32,
+      "entry_scenarios": 4,
+      "model_route_seconds": 17.89,
+      "time_limit": 29
+    }
+  ]
+}

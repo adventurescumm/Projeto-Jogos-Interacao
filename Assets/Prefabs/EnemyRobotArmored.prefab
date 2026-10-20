@@ -185,7 +185,7 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 2fb53f1c332f11643ad0c082a617b5db, type: 3}
   maxHealth: 4
   killPoints: 50
-  speedMultiplier: 3.3
+  speedMultiplier: 2.97
   stationary: 0
   isBoss: 0
   displayName: EnemyRobotArmored
