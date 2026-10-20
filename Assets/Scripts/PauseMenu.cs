@@ -139,7 +139,7 @@ public class PauseMenu : MonoBehaviour
         canvas.sortingOrder = 20000;
         CanvasScaler scaler = overlay.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(640f, 480f);
+        scaler.referenceResolution = new Vector2(600f, 480f);
         scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
         Image shade = Panel("Fundo", overlay.transform, Vector2.zero, Vector2.zero, new Color(0.02f, 0.03f, 0.05f, 0.86f));
         shade.sprite = null;

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Complementa o HUD existente, respeitando a referência de 640 × 480.
+// Complementa o HUD existente, respeitando a referência de 600 × 480.
 public class ArenaHUD : MonoBehaviour
 {
     [SerializeField] private Sprite panelSprite;

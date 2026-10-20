@@ -42,7 +42,7 @@ public class RoomPreparationOverlay : MonoBehaviour
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             CanvasScaler scaler = gameObject.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(640f, 480f);
+            scaler.referenceResolution = new Vector2(600f, 480f);
             scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
         }
         canvas.overrideSorting = true;
